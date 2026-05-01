@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Lab03 Flask{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+
+    {% if session.get("admin_id") %}
+    <header class="topbar">
+        <div class="topbar-left">
+            <div class="brand">
+                <div class="brand-logo">L3</div>
+                <div>
+                    <h1 class="brand-title">Lab03 Flask</h1>
+                    <p class="brand-subtitle">Panel de Administración</p>
+                </div>
+            </div>
+        </div>
+
+        <nav class="topbar-right">
+            <a href="{{ url_for('dashboard') }}" class="nav-link">Dashboard</a>
+            <a href="{{ url_for('listar_usuarios') }}" class="nav-link">Usuarios</a>
+            <a href="{{ url_for('logout') }}" class="btn btn-danger">Cerrar sesión</a>
+        </nav>
+    </header>
+    {% endif %}
+
+    <main class="page-wrapper">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="alerts">
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+</body>
+</html>

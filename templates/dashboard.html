@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<section class="hero-card">
+    <div>
+        <h2>Hola, {{ session["admin_usuario"] }}</h2>
+        <p>
+            Bienvenido al panel principal. Desde aquí puedes administrar los usuarios
+            registrados en el sistema.
+        </p>
+    </div>
+
+    <div class="hero-actions">
+        <a href="{{ url_for('listar_usuarios') }}" class="btn btn-primary">Gestionar usuarios</a>
+        <a href="{{ url_for('crear_usuario') }}" class="btn btn-secondary">Nuevo usuario</a>
+    </div>
+</section>
+
+<section class="stats-grid">
+    <div class="stat-card">
+        <span class="stat-icon">👥</span>
+        <h3>Total de usuarios</h3>
+        <p class="stat-number">{{ total_usuarios }}</p>
+    </div>
+
+    <div class="stat-card">
+        <span class="stat-icon">🛡️</span>
+        <h3>Administradores</h3>
+        <p class="stat-number">{{ total_admins }}</p>
+    </div>
+
+    <div class="stat-card">
+        <span class="stat-icon">🙋</span>
+        <h3>Usuarios normales</h3>
+        <p class="stat-number">{{ total_normales }}</p>
+    </div>
+</section>
+
+<section class="content-card">
+    <div class="section-header">
+        <div>
+            <h3>Resumen del sistema</h3>
+            <p>Accesos rápidos para gestionar la aplicación.</p>
+        </div>
+    </div>
+
+    <div class="quick-actions">
+        <a href="{{ url_for('listar_usuarios') }}" class="quick-action">
+            <span>📋</span>
+            <div>
+                <h4>Ver usuarios</h4>
+                <p>Consulta todos los registros.</p>
+            </div>
+        </a>
+
+        <a href="{{ url_for('crear_usuario') }}" class="quick-action">
+            <span>➕</span>
+            <div>
+                <h4>Crear usuario</h4>
+                <p>Agrega un nuevo registro al sistema.</p>
+            </div>
+        </a>
+
+        <a href="{{ url_for('logout') }}" class="quick-action">
+            <span>🚪</span>
+            <div>
+                <h4>Cerrar sesión</h4>
+                <p>Salir del panel de administración.</p>
+            </div>
+        </a>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}Usuarios{% endblock %}
+
+{% block content %}
+<section class="content-card">
+    <div class="section-header">
+        <div>
+            <h2>Gestión de Usuarios</h2>
+            <p>Administra los usuarios registrados en la aplicación.</p>
+        </div>
+
+        <a href="{{ url_for('crear_usuario') }}" class="btn btn-success">+ Crear usuario</a>
+    </div>
+
+    <form method="GET" class="search-bar">
+        <input
+            type="text"
+            name="buscar"
+            placeholder="Buscar por nombre, correo o rol..."
+            value="{{ busqueda }}"
+        >
+        <button type="submit" class="btn btn-primary">Buscar</button>
+        <a href="{{ url_for('listar_usuarios') }}" class="btn btn-secondary">Limpiar</a>
+    </form>
+
+    <div class="table-wrapper">
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Correo</th>
+                    <th>Rol</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for usuario in usuarios %}
+                <tr>
+                    <td>{{ usuario["id"] }}</td>
+                    <td>{{ usuario["nombre"] }}</td>
+                    <td>{{ usuario["email"] }}</td>
+                    <td>
+                        {% if usuario["rol"] == "admin" %}
+                            <span class="badge badge-admin">Admin</span>
+                        {% else %}
+                            <span class="badge badge-user">Usuario</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <div class="action-buttons">
+                            <a href="{{ url_for('editar_usuario', id=usuario['id']) }}" class="btn btn-warning">Editar</a>
+
+                            <form method="POST"
+                                  action="{{ url_for('eliminar_usuario', id=usuario['id']) }}"
+                                  onsubmit="return confirm('¿Seguro que deseas eliminar este usuario?');">
+                                <button type="submit" class="btn btn-danger">Eliminar</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="5" class="empty-state">No hay usuarios registrados.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}
